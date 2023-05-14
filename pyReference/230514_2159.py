@@ -2119,5 +2119,7 @@ def _test():
 
 
 if __name__ == "__main__":
-  _test()
+  # _test()
+  sm = SequenceMatcher(a='hoge', b='fuga')
+  x = 1
 
