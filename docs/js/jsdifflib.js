@@ -1,5 +1,5 @@
 class SequenceMatcher {
-  constructor(isjunk = null, a = '', b = '', autojunk = true) {
+  constructor({ isjunk = null, a = '', b = '', autojunk = true } = {}) {
     this.isjunk = isjunk;
     this.a = null;
     this.b = null;
@@ -41,7 +41,7 @@ class SequenceMatcher {
 
     this.bjunk = new Set();
     const junk = new Set();
-    isjunk = this.isjunk;
+    const isjunk = this.isjunk;
     if (isjunk) {
       for (const elt of Object.keys(bj2)) {
         if (isjunk(elt)) {
@@ -69,3 +69,5 @@ class SequenceMatcher {
     }
   }
 }
+
+const sm = new SequenceMatcher({ a: 'hoge', b: 'fuga' });
