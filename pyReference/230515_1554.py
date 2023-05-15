@@ -77,66 +77,12 @@ class SequenceMatcher:
         del b2j[elt]
 
   def find_longest_match(self, alo=0, ahi=None, blo=0, bhi=None):
-    """Find longest matching block in a[alo:ahi] and b[blo:bhi].
-
-        By default it will find the longest match in the entirety of a and b.
-
-        If isjunk is not defined:
-
-        Return (i,j,k) such that a[i:i+k] is equal to b[j:j+k], where
-            alo <= i <= i+k <= ahi
-            blo <= j <= j+k <= bhi
-        and for all (i',j',k') meeting those conditions,
-            k >= k'
-            i <= i'
-            and if i == i', j <= j'
-
-        In other words, of all maximal matching blocks, return one that
-        starts earliest in a, and of all those maximal matching blocks that
-        start earliest in a, return the one that starts earliest in b.
-
-        >>> s = SequenceMatcher(None, " abcd", "abcd abcd")
-        >>> s.find_longest_match(0, 5, 0, 9)
-        Match(a=0, b=4, size=5)
-
-        If isjunk is defined, first the longest matching block is
-        determined as above, but with the additional restriction that no
-        junk element appears in the block.  Then that block is extended as
-        far as possible by matching (only) junk elements on both sides.  So
-        the resulting block never matches on junk except as identical junk
-        happens to be adjacent to an "interesting" match.
-
-        Here's the same example as before, but considering blanks to be
-        junk.  That prevents " abcd" from matching the " abcd" at the tail
-        end of the second sequence directly.  Instead only the "abcd" can
-        match, and matches the leftmost "abcd" in the second sequence:
-
-        >>> s = SequenceMatcher(lambda x: x==" ", " abcd", "abcd abcd")
-        >>> s.find_longest_match(0, 5, 0, 9)
-        Match(a=1, b=0, size=4)
-
-        If no blocks match, return (alo, blo, 0).
-
-        >>> s = SequenceMatcher(None, "ab", "c")
-        >>> s.find_longest_match(0, 2, 0, 1)
-        Match(a=0, b=0, size=0)
-        """
-
-    # CAUTION:  stripping common prefix or suffix would be incorrect.
-    # E.g.,
-    #    ab
-    #    acab
-    # Longest matching block is "ab", but if common prefix is
-    # stripped, it's "a" (tied with "b").  UNIX(tm) diff does so
-    # strip, so ends up claiming that ab is changed to acab by
-    # inserting "ca" in the middle.  That's minimal but unintuitive:
-    # "it's obvious" that someone inserted "ac" at the front.
-    # Windiff ends up at the same place as diff, but by pairing up
-    # the unique 'b's and then matching the first two 'a's.
-
+    
     a, b, b2j, isbjunk = self.a, self.b, self.b2j, self.bjunk.__contains__
-    print(self.bjunk)
-    print(isbjunk)
+    #print(self.bjunk)
+    #print(type(self.bjunk))
+    #print(isbjunk)
+    print(self.bjunk.__contains__)
     if ahi is None:
       ahi = len(a)
     if bhi is None:
@@ -1893,5 +1839,6 @@ def _test():
 if __name__ == "__main__":
   # _test()
   sm = SequenceMatcher(isjunk=lambda x: x in ' ', a='hoge', b='fu ga')
+  o = sm.get_opcodes()
   x = 1
 
