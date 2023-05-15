@@ -87,6 +87,11 @@ class SequenceMatcher {
     }
   }
 
+
+  find_longest_match(alo=0, ahi=null, blo=0, bhi=null) {
+    
+  }
+  
   get_matching_blocks() {
     if (this.matching_blocks !== null) {
       return this.matching_blocks;
