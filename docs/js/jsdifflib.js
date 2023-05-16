@@ -93,6 +93,9 @@ class SequenceMatcher {
     ahi = ahi === null ? a.length : ahi;
     bhi = bhi === null ? b.length : bhi;
     const [besti, bestj, bestsize] = [alo, blo, 0];
+    const j2len = {}
+    const nothing = [];
+    
     
     
     
