@@ -89,12 +89,17 @@ class SequenceMatcher {
 
 
   find_longest_match(alo=0, ahi=null, blo=0, bhi=null) {
-    const [a, b, b2j, isbjunk] = [this.a, this.b, this.b2j, this.bjunk]
+    const [a, b, b2j, isbjunk] = [this.a, this.b, this.b2j, this.bjunk.has]
     ahi = ahi === null ? a.length : ahi;
     bhi = bhi === null ? b.length : bhi;
     const [besti, bestj, bestsize] = [alo, blo, 0];
     const j2len = {}
     const nothing = [];
+    
+    for (let i=alo;i<ahi;i++){
+      const newj2len = {}
+      
+    }
     
     
     
