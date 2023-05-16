@@ -2127,7 +2127,7 @@ def _test():
 
 if __name__ == "__main__":
     # _test()
-    sm = SequenceMatcher(isjunk=lambda x: x in ' ', a='hoge', b='fu ga')
+    sm = SequenceMatcher(isjunk=lambda x: x in ' ', a='hoge hoge', b='fu ga hoge')
     o = sm.get_opcodes()
     print(o)
     x = 1

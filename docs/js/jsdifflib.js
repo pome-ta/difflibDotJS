@@ -214,25 +214,25 @@ class SequenceMatcher {
         tag = 'replace';
       } else if (i < ai) {
         tag = 'delete';
-      } else if (j < jb) {
+      } else if (j < bj) {
         tag = 'insert';
       }
-      if (tag) {
+      if (tag !== '') {
         answer.push([tag, i, ai, j, bj]);
       }
       [i, j] = [ai + size, bj + size];
       if (size) {
         answer.push(['equal', ai, i, bj, j]);
       }
-      return answer;
     }
+    return answer;
   }
 }
 
 const sm = new SequenceMatcher({
   isjunk: (x) => x.includes(' '),
-  a: 'hoge',
-  b: 'fu ga',
+  a: 'hoge hoge',
+  b: 'fu ga hoge',
 });
 const o = sm.get_opcodes();
 
