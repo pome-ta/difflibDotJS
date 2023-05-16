@@ -1,5 +1,3 @@
-class Match {}
-
 class SequenceMatcher {
   constructor({ isjunk = null, a = '', b = '', autojunk = true } = {}) {
     this.isjunk = isjunk;
@@ -28,8 +26,8 @@ class SequenceMatcher {
       return;
     }
     this.b = b;
-    this.matching_blocks = this.opcodes = null;
-    // this.opcodes = null;
+    this.matching_blocks = null;
+    this.opcodes = null;
     this.fullbcount = null;
     this.__chain_b();
   }
@@ -94,16 +92,16 @@ class SequenceMatcher {
       this.a,
       this.b,
       this.b2j,
-      (junk) => this.bjunk.hasOwnProperty(junk),
+      (_junk) => this.bjunk.hasOwnProperty(_junk),
     ];
     ahi = ahi === null ? a.length : ahi;
     bhi = bhi === null ? b.length : bhi;
     let [besti, bestj, bestsize] = [alo, blo, 0];
+    
     let j2len = {};
     const nothing = [];
 
     for (let i = alo; i < ahi; i++) {
-      // const j2lenget = j2len.hasOwnProperty
       const j2lenget = (s, d) => (j2len.hasOwnProperty(s) ? j2len[s] : d);
       const newj2len = {};
       for (const j of b2j.hasOwnProperty(a[i]) ? b2j[a[i]] : nothing) {
@@ -161,9 +159,10 @@ class SequenceMatcher {
     }
     const la = this.a.length;
     const lb = this.b.length;
-    // const queue = [[0, la, 0, lb]];
+    
     const queue = new Array([0, la, 0, lb]);
     const matching_blocks = [];
+    
     while (queue?.length) {
       const [alo, ahi, blo, bhi] = queue.pop();
       const x = this.find_longest_match(alo, ahi, blo, bhi);
@@ -182,6 +181,7 @@ class SequenceMatcher {
 
     let [i1, j1, k1] = [0, 0, 0];
     const non_adjacent = [];
+    
     for (const [i2, j2, k2] of matching_blocks) {
       if (i1 + k1 === i2 && j1 + k1 === j2) {
         k1 += k2;
@@ -238,3 +238,4 @@ const o = sm.get_opcodes();
 
 const x = 1;
 console.log(o);
+
