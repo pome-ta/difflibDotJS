@@ -74,7 +74,7 @@ class SequenceMatcher {
     // const popular = new Set();
     const n = b.length;
     if (this.autojunk && n >= 200) {
-      const ntest = (n / 100 | 0) + 1; // 切り捨て
+      const ntest = ((n / 100) | 0) + 1; // 切り捨て
       for (const [elt, idxs] of Object.entries(b2j)) {
         if (idxs.length > ntest) {
           popular.add(elt);
@@ -87,27 +87,70 @@ class SequenceMatcher {
     }
   }
 
-
-  find_longest_match(alo=0, ahi=null, blo=0, bhi=null) {
-    const [a, b, b2j, isbjunk] = [this.a, this.b, this.b2j, this.bjunk.has]
+  find_longest_match(alo = 0, ahi = null, blo = 0, bhi = null) {
+    const [a, b, b2j, isbjunk] = [
+      this.a,
+      this.b,
+      this.b2j,
+      this.bjunk.hasOwnProperty,
+    ];
     ahi = ahi === null ? a.length : ahi;
     bhi = bhi === null ? b.length : bhi;
-    const [besti, bestj, bestsize] = [alo, blo, 0];
-    const j2len = {}
+    let [besti, bestj, bestsize] = [alo, blo, 0];
+    const j2len = {};
     const nothing = [];
-    
-    for (let i=alo;i<ahi;i++){
-      const newj2len = {}
-      
+
+    for (let i = alo; i < ahi; i++) {
+      // const j2lenget = j2len.hasOwnProperty
+      const j2lenget = (s, d) => (j2len.hasOwnProperty(s) ? j2len[s] : d);
+      const newj2len = {};
+      for (const j of b2j.hasOwnProperty(a[i]) ? b2j[a[i]] : nothing) {
+        if (j < blo) {
+          continue;
+        }
+        if (j >= bhi) {
+          break;
+        }
+        let k;
+        k = newj2len[j] = j2lenget(j - 1, 0) + 1;
+        if (k > bestsize) {
+          [besti, bestj, bestsize] = [i - k + 1, j - k + 1, k];
+        }
+      }
+      j2len = newj2len;
     }
-    
-    
-    
-    
-    
-    
+
+    while (
+      besti > alo &&
+      bestj > blo &&
+      !isbjunk(b[bestj - 1]) &&
+      a[besti - 1] === b[bestj - 1]
+    ) {
+      [besti, bestj, bestsize] = [besti - 1, bestj - 1, bestsize + 1];
+    }
+
+    while (
+      besti + bestsize < ahi &&
+      bestj + bestsize < bhi &&
+      !isbjunk(b[bestj + bestsize]) &&
+      a[besti + bestsize] === b[bestj + bestsize]
+    ) {
+      bestsize += 1;
+    }
+
+    while (besti > alo && bestj > blo && isbjunk(b[bestj - 1])) {
+      [besti, bestj, bestsize] = [besti - 1, bestj - 1, bestsize + 1];
+    }
+    while (
+      besti + bestsize < ahi &&
+      bestj + bestsize < bhi &&
+      isbjunk(b[bestj + bestsize]) &&
+      a[besti + bestsize] === b[bestj + bestsize]
+    ) {
+      bestsize = bestsize + 1;
+    }
   }
-  
+
   get_matching_blocks() {
     if (this.matching_blocks !== null) {
       return this.matching_blocks;
