@@ -1,6 +1,4 @@
-class Match {
-}
-
+class Match {}
 
 class SequenceMatcher {
   constructor({ isjunk = null, a = '', b = '', autojunk = true } = {}) {
@@ -96,12 +94,12 @@ class SequenceMatcher {
       this.a,
       this.b,
       this.b2j,
-      this.bjunk.hasOwnProperty,
+      (junk) => this.bjunk.hasOwnProperty(junk),
     ];
     ahi = ahi === null ? a.length : ahi;
     bhi = bhi === null ? b.length : bhi;
     let [besti, bestj, bestsize] = [alo, blo, 0];
-    const j2len = {};
+    let j2len = {};
     const nothing = [];
 
     for (let i = alo; i < ahi; i++) {
@@ -153,7 +151,7 @@ class SequenceMatcher {
     ) {
       bestsize = bestsize + 1;
     }
-    
+
     return [besti, bestj, bestsize];
   }
 
@@ -163,11 +161,44 @@ class SequenceMatcher {
     }
     const la = this.a.length;
     const lb = this.b.length;
-    const queue = [(0, la, 0, lb)];
+    // const queue = [[0, la, 0, lb]];
+    const queue = new Array([0, la, 0, lb]);
     const matching_blocks = [];
-    while (queue) {
+    while (queue?.length) {
       const [alo, ahi, blo, bhi] = queue.pop();
+      const x = this.find_longest_match(alo, ahi, blo, bhi);
+      const [i, j, k] = x;
+      if (k) {
+        matching_blocks.push(x);
+        if (alo < i && blo < j) {
+          queue.push([alo, i, blo, j]);
+        }
+        if (i + k < ahi && j + k < bhi) {
+          queue.push([i + k, ahi, j + k, bhi]);
+        }
+      }
     }
+    matching_blocks.sort();
+
+    let [i1, j1, k1] = [0, 0, 0];
+    const non_adjacent = [];
+    for (const [i2, j2, k2] of matching_blocks) {
+      if (i1 + k1 === i2 && j1 + k1 === j2) {
+        k1 += k2;
+      } else {
+        if (k1) {
+          non_adjacent.push([i1, j1, k1]);
+        }
+        [i1, j1, k1] = [i2, j2, k2];
+      }
+    }
+    if (k1) {
+      non_adjacent.push([i1, j1, k1]);
+    }
+
+    non_adjacent.push([la, lb, 0]);
+    this.matching_blocks = non_adjacent;
+    return this.matching_blocks;
   }
 
   get_opcodes() {
@@ -177,12 +208,33 @@ class SequenceMatcher {
     let i, j, answer;
     i = j = 0;
     this.opcodes = answer = [];
+    for (const [ai, bj, size] of this.get_matching_blocks()) {
+      let tag = '';
+      if (i < ai && j < bj) {
+        tag = 'replace';
+      } else if (i < ai) {
+        tag = 'delete';
+      } else if (j < jb) {
+        tag = 'insert';
+      }
+      if (tag) {
+        answer.push([tag, i, ai, j, bj]);
+      }
+      [i, j] = [ai + size, bj + size];
+      if (size) {
+        answer.push(['equal', ai, i, bj, j]);
+      }
+      return answer;
+    }
   }
 }
 
 const sm = new SequenceMatcher({
   isjunk: (x) => x.includes(' '),
   a: 'hoge',
-  b: 'fufg a',
+  b: 'fu ga',
 });
-console.log(sm);
+const o = sm.get_opcodes();
+
+const x = 1;
+console.log(o);
