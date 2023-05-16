@@ -174,6 +174,8 @@ class SequenceMatcher:
     while queue:
       alo, ahi, blo, bhi = queue.pop()
       i, j, k = x = self.find_longest_match(alo, ahi, blo, bhi)
+      print(i)
+      print(x)
       # a[alo:i] vs b[blo:j] unknown
       # a[i:i+k] same as b[j:j+k]
       # a[i+k:ahi] vs b[j+k:bhi] unknown

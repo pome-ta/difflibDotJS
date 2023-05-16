@@ -1,3 +1,7 @@
+class Match {
+}
+
+
 class SequenceMatcher {
   constructor({ isjunk = null, a = '', b = '', autojunk = true } = {}) {
     this.isjunk = isjunk;
@@ -149,6 +153,8 @@ class SequenceMatcher {
     ) {
       bestsize = bestsize + 1;
     }
+    
+    return [besti, bestj, bestsize];
   }
 
   get_matching_blocks() {
