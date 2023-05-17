@@ -33,15 +33,22 @@ class SequenceMatcher {
   }
 
   __chain_b() {
-    const b = this.b;
     let b2j;
     this.b2j = b2j = {};
     // this.b2j = b2j = new Object();
     // this.b2j = new Object();
     // const b2j = new Object();
-
-
     
+    const b = this.b;
+    Array.prototype.forEach(b, (elt) => {
+      if (!b2j.hasOwnProperty(elt)) {
+        b2j[elt] = [];
+      }
+      b2j[elt].push(i);
+    })
+
+
+    /*
     for (let i = 0; i < b.length; i++) {
       const elt = b[i];
       if (!b2j.hasOwnProperty(elt)) {
@@ -52,14 +59,25 @@ class SequenceMatcher {
       // const indices = b2j.hasOwnProperty(elt) ? b2j[elt] : [];
       // indices.push(i);
     }
+    */
     // Purge junk elements
     let junk;
     this.bjunk = junk = new Set();
     // this.bjunk = new Set();
     // const junk = new Set();
     const isjunk = this.isjunk;
+    isjunk ? Object.keys(b2j).forEach((elt) => {
+      isjunk(elt) ? junk.add(elt): null;
+      for (const elt of junk) {
+        // separate loop avoids separate list of keys
+        delete b2j[elt];
+      }
+    }) : null;
+    
+    /*
     if (isjunk) {
       for (const elt of Object.keys(b2j)) {
+        //isjunk(elt) ? junk.add(elt): null;
         if (isjunk(elt)) {
           junk.add(elt);
         }
@@ -69,6 +87,7 @@ class SequenceMatcher {
         delete b2j[elt];
       }
     }
+    */
     // Purge popular elements that are not junk
     let popular;
     this.bpopular = popular = new Set();
