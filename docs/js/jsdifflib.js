@@ -40,6 +40,8 @@ class SequenceMatcher {
     // this.b2j = new Object();
     // const b2j = new Object();
 
+
+    
     for (let i = 0; i < b.length; i++) {
       const elt = b[i];
       if (!b2j.hasOwnProperty(elt)) {
