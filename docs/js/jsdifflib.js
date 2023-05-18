@@ -35,46 +35,31 @@ export class SequenceMatcher {
   __chain_b() {
     let b2j;
     this.b2j = b2j = {};
-    // this.b2j = b2j = new Object();
-    // this.b2j = new Object();
-    // const b2j = new Object();
-    
+
     const b = this.b;
-    /*
-    Array.prototype.forEach(b, (elt) => {
+    Array.prototype.forEach.call(b, (elt, i) => {
       if (!b2j.hasOwnProperty(elt)) {
         b2j[elt] = [];
       }
       b2j[elt].push(i);
     })
-    */
     
-    for (let i = 0; i < b.length; i++) {
-      const elt = b[i];
-      if (!b2j.hasOwnProperty(elt)) {
-        b2j[elt] = [];
-      }
-      b2j[elt].push(i);
 
-      // const indices = b2j.hasOwnProperty(elt) ? b2j[elt] : [];
-      // indices.push(i);
-    }
-    
     // Purge junk elements
     let junk;
     this.bjunk = junk = new Set();
-    // this.bjunk = new Set();
-    // const junk = new Set();
+
     const isjunk = this.isjunk;
-    isjunk ? Object.keys(b2j).forEach((elt) => {
-      isjunk(elt) ? junk.add(elt): null;
-      for (const elt of junk) {
-        // separate loop avoids separate list of keys
-        delete b2j[elt];
-      }
-    }) : null;
-    
-    /*
+    // isjunk
+    //   ? Object.keys(b2j).forEach((elt) => {
+    //       isjunk(elt) ? junk.add(elt) : null;
+    //       for (const elt of junk) {
+    //         // separate loop avoids separate list of keys
+    //         delete b2j[elt];
+    //       }
+    //     })
+    //   : null;
+
     if (isjunk) {
       for (const elt of Object.keys(b2j)) {
         //isjunk(elt) ? junk.add(elt): null;
@@ -87,12 +72,11 @@ export class SequenceMatcher {
         delete b2j[elt];
       }
     }
-    */
+
     // Purge popular elements that are not junk
     let popular;
     this.bpopular = popular = new Set();
-    // this.bpopular = new Set();
-    // const popular = new Set();
+
     const n = b.length;
     if (this.autojunk && n >= 200) {
       const ntest = ((n / 100) | 0) + 1; // 切り捨て
@@ -118,7 +102,7 @@ export class SequenceMatcher {
     ahi = ahi === null ? a.length : ahi;
     bhi = bhi === null ? b.length : bhi;
     let [besti, bestj, bestsize] = [alo, blo, 0];
-    
+
     let j2len = {};
     const nothing = [];
 
@@ -180,10 +164,10 @@ export class SequenceMatcher {
     }
     const la = this.a.length;
     const lb = this.b.length;
-    
+
     const queue = new Array([0, la, 0, lb]);
     const matching_blocks = [];
-    
+
     while (queue?.length) {
       const [alo, ahi, blo, bhi] = queue.pop();
       const x = this.find_longest_match(alo, ahi, blo, bhi);
@@ -202,7 +186,7 @@ export class SequenceMatcher {
 
     let [i1, j1, k1] = [0, 0, 0];
     const non_adjacent = [];
-    
+
     for (const [i2, j2, k2] of matching_blocks) {
       if (i1 + k1 === i2 && j1 + k1 === j2) {
         k1 += k2;
@@ -238,16 +222,17 @@ export class SequenceMatcher {
       } else if (j < bj) {
         tag = 'insert';
       }
-      if (tag !== '') {
-        answer.push([tag, i, ai, j, bj]);
-      }
+      tag !== '' ? answer.push([tag, i, ai, j, bj]) : null;
+      // if (tag !== '') {
+      //   answer.push([tag, i, ai, j, bj]);
+      // }
       [i, j] = [ai + size, bj + size];
-      if (size) {
-        answer.push(['equal', ai, i, bj, j]);
-      }
+      size ? answer.push(['equal', ai, i, bj, j]) : null;
+
+      // if (size) {
+      //   answer.push(['equal', ai, i, bj, j]);
+      // }
     }
     return answer;
   }
 }
-
-
