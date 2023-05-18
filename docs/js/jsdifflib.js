@@ -1,4 +1,4 @@
-class SequenceMatcher {
+export class SequenceMatcher {
   constructor({ isjunk = null, a = '', b = '', autojunk = true } = {}) {
     this.isjunk = isjunk;
     this.a = null;
@@ -40,15 +40,17 @@ class SequenceMatcher {
     // const b2j = new Object();
     
     const b = this.b;
+    /*
     Array.prototype.forEach(b, (elt) => {
       if (!b2j.hasOwnProperty(elt)) {
         b2j[elt] = [];
       }
       b2j[elt].push(i);
     })
+    */
 
 
-    /*
+    
     for (let i = 0; i < b.length; i++) {
       const elt = b[i];
       if (!b2j.hasOwnProperty(elt)) {
@@ -59,7 +61,7 @@ class SequenceMatcher {
       // const indices = b2j.hasOwnProperty(elt) ? b2j[elt] : [];
       // indices.push(i);
     }
-    */
+    
     // Purge junk elements
     let junk;
     this.bjunk = junk = new Set();
@@ -250,13 +252,4 @@ class SequenceMatcher {
   }
 }
 
-const sm = new SequenceMatcher({
-  isjunk: (x) => x.includes(' '),
-  a: 'hoge hoge',
-  b: 'fu ga hoge',
-});
-const o = sm.get_opcodes();
-
-const x = 1;
-console.log(o);
 
