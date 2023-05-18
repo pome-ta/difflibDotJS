@@ -172,14 +172,20 @@ export class SequenceMatcher {
       const [alo, ahi, blo, bhi] = queue.pop();
       const x = this.find_longest_match(alo, ahi, blo, bhi);
       const [i, j, k] = x;
+      
       if (k) {
         matching_blocks.push(x);
+        
+        alo < i && blo < j ? queue.push([alo, i, blo, j]):null;
+        i + k < ahi && j + k < bhi ? queue.push([i + k, ahi, j + k, bhi]):null;
+        /*
         if (alo < i && blo < j) {
           queue.push([alo, i, blo, j]);
         }
         if (i + k < ahi && j + k < bhi) {
           queue.push([i + k, ahi, j + k, bhi]);
         }
+        */
       }
     }
     matching_blocks.sort();
