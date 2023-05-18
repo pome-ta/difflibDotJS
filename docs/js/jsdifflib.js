@@ -42,8 +42,7 @@ export class SequenceMatcher {
         b2j[elt] = [];
       }
       b2j[elt].push(i);
-    })
-    
+    });
 
     // Purge junk elements
     let junk;
@@ -172,12 +171,14 @@ export class SequenceMatcher {
       const [alo, ahi, blo, bhi] = queue.pop();
       const x = this.find_longest_match(alo, ahi, blo, bhi);
       const [i, j, k] = x;
-      
+
       if (k) {
         matching_blocks.push(x);
-        
-        alo < i && blo < j ? queue.push([alo, i, blo, j]):null;
-        i + k < ahi && j + k < bhi ? queue.push([i + k, ahi, j + k, bhi]):null;
+
+        alo < i && blo < j ? queue.push([alo, i, blo, j]) : null;
+        i + k < ahi && j + k < bhi
+          ? queue.push([i + k, ahi, j + k, bhi])
+          : null;
         /*
         if (alo < i && blo < j) {
           queue.push([alo, i, blo, j]);
@@ -197,15 +198,21 @@ export class SequenceMatcher {
       if (i1 + k1 === i2 && j1 + k1 === j2) {
         k1 += k2;
       } else {
+        k1 ? non_adjacent.push([i1, j1, k1]) : null;
+        /*
         if (k1) {
           non_adjacent.push([i1, j1, k1]);
         }
+        */
         [i1, j1, k1] = [i2, j2, k2];
       }
     }
+    k1 ? non_adjacent.push([i1, j1, k1]) : null;
+    /*
     if (k1) {
       non_adjacent.push([i1, j1, k1]);
     }
+    */
 
     non_adjacent.push([la, lb, 0]);
     this.matching_blocks = non_adjacent;
