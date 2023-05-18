@@ -48,8 +48,6 @@ export class SequenceMatcher {
       b2j[elt].push(i);
     })
     */
-
-
     
     for (let i = 0; i < b.length; i++) {
       const elt = b[i];
