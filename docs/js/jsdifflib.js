@@ -60,13 +60,14 @@ export class SequenceMatcher {
     //   : null;
 
     if (isjunk) {
-      
+      Object.keys(b2j).forEach((elt) => isjunk(elt)? junk.add(elt):null);
+      /*
       for (const elt of Object.keys(b2j)) {
         //isjunk(elt) ? junk.add(elt): null;
         if (isjunk(elt)) {
           junk.add(elt);
         }
-      }
+      }*/
       for (const elt of junk) {
         // separate loop avoids separate list of keys
         delete b2j[elt];
