@@ -60,6 +60,7 @@ export class SequenceMatcher {
     //   : null;
 
     if (isjunk) {
+      
       for (const elt of Object.keys(b2j)) {
         //isjunk(elt) ? junk.add(elt): null;
         if (isjunk(elt)) {
@@ -78,7 +79,7 @@ export class SequenceMatcher {
 
     const n = b.length;
     if (this.autojunk && n >= 200) {
-      const ntest = ((n / 100) | 0) + 1; // 切り捨て
+      const ntest = ((n / 100) | 0) + 1; // 小数点切り捨て
       for (const [elt, idxs] of Object.entries(b2j)) {
         if (idxs.length > ntest) {
           popular.add(elt);
