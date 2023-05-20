@@ -35,8 +35,8 @@ export class SequenceMatcher {
   __chain_b() {
     let b2j;
     this.b2j = b2j = {};
-
     const b = this.b;
+
     Array.prototype.forEach.call(b, (elt, i) => {
       if (!b2j.hasOwnProperty(elt)) {
         b2j[elt] = [];
@@ -47,27 +47,10 @@ export class SequenceMatcher {
     // Purge junk elements
     let junk;
     this.bjunk = junk = new Set();
-
     const isjunk = this.isjunk;
-    // isjunk
-    //   ? Object.keys(b2j).forEach((elt) => {
-    //       isjunk(elt) ? junk.add(elt) : null;
-    //       for (const elt of junk) {
-    //         // separate loop avoids separate list of keys
-    //         delete b2j[elt];
-    //       }
-    //     })
-    //   : null;
 
     if (isjunk) {
       Object.keys(b2j).forEach((elt) => (isjunk(elt) ? junk.add(elt) : null));
-      /*
-      for (const elt of Object.keys(b2j)) {
-        //isjunk(elt) ? junk.add(elt): null;
-        if (isjunk(elt)) {
-          junk.add(elt);
-        }
-      }*/
       for (const elt of junk) {
         // separate loop avoids separate list of keys
         delete b2j[elt];
@@ -84,13 +67,6 @@ export class SequenceMatcher {
       Object.entries(b2j).forEach(([elt, idxs]) =>
         idxs.length > ntest ? popular.add(elt) : null
       );
-      /*
-      for (const [elt, idxs] of Object.entries(b2j)) {
-        if (idxs.length > ntest) {
-          popular.add(elt);
-        }
-      }
-      */
       for (const elt of popular) {
         // ditto; as fast for 1% deletion
         delete bj2[elt];
@@ -181,19 +157,10 @@ export class SequenceMatcher {
 
       if (k) {
         matching_blocks.push(x);
-
         alo < i && blo < j ? queue.push([alo, i, blo, j]) : null;
         i + k < ahi && j + k < bhi
           ? queue.push([i + k, ahi, j + k, bhi])
           : null;
-        /*
-        if (alo < i && blo < j) {
-          queue.push([alo, i, blo, j]);
-        }
-        if (i + k < ahi && j + k < bhi) {
-          queue.push([i + k, ahi, j + k, bhi]);
-        }
-        */
       }
     }
     matching_blocks.sort();
@@ -206,20 +173,10 @@ export class SequenceMatcher {
         k1 += k2;
       } else {
         k1 ? non_adjacent.push([i1, j1, k1]) : null;
-        /*
-        if (k1) {
-          non_adjacent.push([i1, j1, k1]);
-        }
-        */
         [i1, j1, k1] = [i2, j2, k2];
       }
     }
     k1 ? non_adjacent.push([i1, j1, k1]) : null;
-    /*
-    if (k1) {
-      non_adjacent.push([i1, j1, k1]);
-    }
-    */
 
     non_adjacent.push([la, lb, 0]);
     this.matching_blocks = non_adjacent;
@@ -230,6 +187,7 @@ export class SequenceMatcher {
     if (this.opcodes !== null) {
       return this.opcodes;
     }
+
     let i, j, answer;
     i = j = 0;
     this.opcodes = answer = [];
@@ -243,16 +201,10 @@ export class SequenceMatcher {
         tag = 'insert';
       }
       tag !== '' ? answer.push([tag, i, ai, j, bj]) : null;
-      // if (tag !== '') {
-      //   answer.push([tag, i, ai, j, bj]);
-      // }
       [i, j] = [ai + size, bj + size];
       size ? answer.push(['equal', ai, i, bj, j]) : null;
-
-      // if (size) {
-      //   answer.push(['equal', ai, i, bj, j]);
-      // }
     }
+
     return answer;
   }
 }
