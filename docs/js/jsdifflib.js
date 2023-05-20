@@ -81,11 +81,14 @@ export class SequenceMatcher {
     const n = b.length;
     if (this.autojunk && n >= 200) {
       const ntest = ((n / 100) | 0) + 1; // 小数点切り捨て
+      Object.entries(b2j).forEach(([elt, idxs])=>idxs.length > ntest?popular.add(elt):null);
+      /*
       for (const [elt, idxs] of Object.entries(b2j)) {
         if (idxs.length > ntest) {
           popular.add(elt);
         }
       }
+      */
       for (const elt of popular) {
         // ditto; as fast for 1% deletion
         delete bj2[elt];
