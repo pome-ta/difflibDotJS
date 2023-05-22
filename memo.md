@@ -15,7 +15,7 @@
 
 `delete` `insert` は出るけども`replace` がだめっぽい？
 
-元々も、`replace` としてダメ？
+元々も、`replace` としてダメか？
 
 
 
