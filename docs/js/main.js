@@ -9,4 +9,3 @@ const o = sm.get_opcodes();
 
 const x = 1;
 console.log(o);
-

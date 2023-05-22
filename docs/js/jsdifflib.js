@@ -163,6 +163,7 @@ export class SequenceMatcher {
           : null;
       }
     }
+
     matching_blocks.sort();
 
     let [i1, j1, k1] = [0, 0, 0];

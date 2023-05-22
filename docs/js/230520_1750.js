@@ -60,7 +60,7 @@ export class SequenceMatcher {
     //   : null;
 
     if (isjunk) {
-      Object.keys(b2j).forEach((elt) => isjunk(elt)? junk.add(elt):null);
+      Object.keys(b2j).forEach((elt) => (isjunk(elt) ? junk.add(elt) : null));
       /*
       for (const elt of Object.keys(b2j)) {
         //isjunk(elt) ? junk.add(elt): null;
@@ -81,7 +81,9 @@ export class SequenceMatcher {
     const n = b.length;
     if (this.autojunk && n >= 200) {
       const ntest = ((n / 100) | 0) + 1; // 小数点切り捨て
-      Object.entries(b2j).forEach(([elt, idxs])=>idxs.length > ntest?popular.add(elt):null);
+      Object.entries(b2j).forEach(([elt, idxs]) =>
+        idxs.length > ntest ? popular.add(elt) : null
+      );
       /*
       for (const [elt, idxs] of Object.entries(b2j)) {
         if (idxs.length > ntest) {
