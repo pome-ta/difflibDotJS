@@ -215,5 +215,4 @@ class SequenceMatcher {
   }
 }
 
-
-export {SequenceMatcher,}
+export { SequenceMatcher };
