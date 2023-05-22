@@ -7,13 +7,13 @@
 `if` や`for` 等でワンライナーにならないところは通常的に
 
 
-あと、doc を書くかどうか
+あと、doc を書き始める
 
 
 ## Python モジュールのところ
 
 
-`delete` `insert` は出るけども`replace` がだめっぽい？
+`equal` `delete` `insert` は出るけども`replace` がだめっぽい？
 
 元々も、`replace` としてダメか？
 

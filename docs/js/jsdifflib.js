@@ -1,4 +1,9 @@
-export class SequenceMatcher {
+/**
+ * Python の`difflib.SequenceMatcher` の書き写し。`get_opcodes` で、差分情報を取得
+ * @see [SequenceMatcher | difflib --- 差分の計算を助ける — Python 3.10.11 ドキュメント](https://docs.python.org/ja/3.10/library/difflib.html#difflib.SequenceMatcher)
+ * @see [get_opcodes | difflib --- 差分の計算を助ける — Python 3.11.3 ドキュメント](https://docs.python.org/ja/3/library/difflib.html#difflib.SequenceMatcher.get_opcodes)
+ */
+class SequenceMatcher {
   constructor({ isjunk = null, a = '', b = '', autojunk = true } = {}) {
     this.isjunk = isjunk;
     this.a = null;
@@ -209,3 +214,6 @@ export class SequenceMatcher {
     return answer;
   }
 }
+
+
+export {SequenceMatcher,}
