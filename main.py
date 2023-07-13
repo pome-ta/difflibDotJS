@@ -8,6 +8,7 @@ from wkwebview import WKWebView
 
 
 class View(ui.View):
+
   def __init__(self, url, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
     self.wv = WKWebView()
